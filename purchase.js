@@ -9,10 +9,6 @@ $(document).ready(function() {
 });
 
 function makingPurchase() {
-  $(".shipping-group").on("click", function() {
-    alert("hi");
-  });
-
   if ($(".shipping-group").length) {
     var priceString = $(".grand-total-price").text();
     var price = priceString.substring(1);

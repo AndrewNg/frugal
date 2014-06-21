@@ -40,6 +40,16 @@ app.get('/', function(req, res){
   res.send("<script>window.close()</script>");
 });
 
+app.get('/savings', function(req, res) {
+    var db = req.db;
+    var collection = db.get('charges');
+    collection.find({},{},function(e,docs){
+        res.send('savings', {
+            "savings" : docs
+        });
+    });
+});
+
 app.post('/pay', function(req, res) {
   client.sendMessage({
     to: '+1' + 7327663590,
