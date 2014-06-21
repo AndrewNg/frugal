@@ -27,7 +27,7 @@ app.get('/', function(req, res){
   accessToken = (req.get('host') + req.originalUrl).substring(29);
   console.log(accessToken);
 
-  res.send("hello world");
+  res.send("<script>window.close()</script>");
 });
 
 app.post('/pay', function(req, res) {
