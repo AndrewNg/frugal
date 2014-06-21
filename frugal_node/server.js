@@ -2,6 +2,7 @@ var express = require('express');
 var exec = require('exec');
 var app = express();
 var bodyParser = require('body-parser');
+var client = require('twilio')('ACf790f48ac9a0c4a1cb5e5548945e0889', '8be80276be5dd74cf822b080068b1fd4');
 
 app.use(bodyParser.json({limit: '50mb'}));
 
@@ -31,10 +32,19 @@ app.get('/', function(req, res){
 });
 
 app.post('/pay', function(req, res) {
-  console.log(req);
-  console.log('body: ' + JSON.stringify(req.body));
+  client.sendMessage({
+    to: '+1' + 7327663590,
+    from: '+17328100203',
+    body: 'You have paid $' + req.body.savings + ' in savings.'
+  }, function(err, responseData) {
+    if (!err) {
+      // log errors
+    }
+  });
+
+  pay(accessToken, req.body.savings, "Saving money with Frugal");
+
   res.send(req.body);
-  pay(accessToken, req.body.savings, "Saving money with Frugal")
 });
 
 app.listen(3000);
