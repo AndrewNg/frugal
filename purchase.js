@@ -9,28 +9,30 @@ $(document).ready(function() {
 });
 
 function makingPurchase() {
-  $("#productTitle").on("click", function(){
-    var priceString = $("#priceblock_ourprice").text();
+  if ($(".shipping-group").length) {
+    var priceString = $(".grand-total-price").text();
     var price = priceString.substring(1);
 
-    var savings = parseFloat(price*0.001).toFixed(2);
+    var savings = parseFloat(price*0.01).toFixed(2);
 
     console.log(savings);
     data.savings = savings;
 
-    $.ajax({
-      type: 'POST',
-      data: JSON.stringify(data),
-      contentType: 'application/json',
-      url: 'http://localhost:3000/pay',
-      crossDomain: true,
-      success: function(data) {
-        console.log("success");
-        console.log(JSON.stringify(data))
-      },
-      error: function(xhr) {
-        console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText);
-      }
-    });
-  });
+    if (confirm("Are you willing to spend $" + price + " and pay $" + savings + " to your savings account?")) {
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: 'http://localhost:3000/pay',
+        crossDomain: true,
+        success: function(data) {
+          console.log("success");
+          console.log(JSON.stringify(data))
+        },
+        error: function(xhr) {
+          console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText);
+        }
+      });
+    }
+  }
 }
